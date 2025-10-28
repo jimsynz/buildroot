@@ -1,0 +1,186 @@
+./arduino-flasher-cli flash latest
+Checking for Debian image releases
+Found Debian image version: 20251006-395
+Do you want to download it? (yes/no)
+yes
+Downloading Debian image version 20251006-395
+Download progress: 1.00 %
+Download progress: 2.00 %
+Download progress: 3.00 %
+Download progress: 4.00 %
+Download progress: 5.00 %
+Download progress: 6.00 %
+Download progress: 7.00 %
+Download progress: 8.00 %
+Download progress: 9.00 %
+Download progress: 10.00 %
+Download progress: 11.01 %
+Download progress: 12.01 %
+Download progress: 13.01 %
+Download progress: 14.01 %
+Download progress: 15.01 %
+Download progress: 16.01 %
+Download progress: 17.01 %
+Download progress: 18.01 %
+Download progress: 19.01 %
+Download progress: 20.01 %
+Download progress: 21.01 %
+Download progress: 22.01 %
+Download progress: 23.01 %
+Download progress: 24.01 %
+Download progress: 25.02 %
+Download progress: 26.02 %
+Download progress: 27.02 %
+Download progress: 28.02 %
+Download progress: 29.02 %
+Download progress: 30.02 %
+Download progress: 31.02 %
+Download progress: 32.02 %
+Download progress: 33.02 %
+Download progress: 34.02 %
+Download progress: 35.02 %
+Download progress: 36.02 %
+Download progress: 37.02 %
+Download progress: 38.02 %
+Download progress: 39.02 %
+Download progress: 40.02 %
+Download progress: 41.03 %
+Download progress: 42.03 %
+Download progress: 43.03 %
+Download progress: 44.03 %
+Download progress: 45.03 %
+Download progress: 46.03 %
+Download progress: 47.03 %
+Download progress: 48.03 %
+Download progress: 49.03 %
+Download progress: 50.03 %
+Download progress: 51.03 %
+Download progress: 52.03 %
+Download progress: 53.03 %
+Download progress: 54.03 %
+Download progress: 55.03 %
+Download progress: 56.03 %
+Download progress: 57.03 %
+Download progress: 58.03 %
+Download progress: 59.03 %
+Download progress: 60.03 %
+Download progress: 61.03 %
+Download progress: 62.03 %
+Download progress: 63.03 %
+Download progress: 64.03 %
+Download progress: 65.04 %
+Download progress: 66.04 %
+Download progress: 67.04 %
+Download progress: 68.04 %
+Download progress: 69.04 %
+Download progress: 70.04 %
+Download progress: 71.04 %
+Download progress: 72.04 %
+Download progress: 73.04 %
+Download progress: 74.04 %
+Download progress: 75.04 %
+Download progress: 76.04 %
+Download progress: 77.04 %
+Download progress: 78.04 %
+Download progress: 79.04 %
+Download progress: 80.04 %
+Download progress: 81.04 %
+Download progress: 82.04 %
+Download progress: 83.04 %
+Download progress: 84.04 %
+Download progress: 85.05 %
+Download progress: 86.05 %
+Download progress: 87.05 %
+Download progress: 88.05 %
+Download progress: 89.05 %
+Download progress: 90.05 %
+Download progress: 91.05 %
+Download progress: 92.05 %
+Download progress: 93.05 %
+Download progress: 94.05 %
+Download progress: 95.05 %
+Download progress: 96.05 %
+Download progress: 97.05 %
+Download progress: 98.05 %
+Download progress: 99.05 %
+Download of Debian image completed
+Unzipping Debian image
+arduino-unoq-debian-image-20251006-395/
+arduino-unoq-debian-image-20251006-395/disk-sdcard.img.home
+arduino-unoq-debian-image-20251006-395/disk-sdcard.img.root
+arduino-unoq-debian-image-20251006-395/disk-sdcard.img.esp
+arduino-unoq-debian-image-20251006-395/flash/
+arduino-unoq-debian-image-20251006-395/flash/rpm.mbn
+arduino-unoq-debian-image-20251006-395/flash/multi_image.mbn
+arduino-unoq-debian-image-20251006-395/flash/devcfg.mbn
+arduino-unoq-debian-image-20251006-395/flash/tz.mbn
+arduino-unoq-debian-image-20251006-395/flash/qupv3fw.elf
+arduino-unoq-debian-image-20251006-395/flash/xbl_feature_config.elf
+arduino-unoq-debian-image-20251006-395/flash/gpt_main1.bin
+arduino-unoq-debian-image-20251006-395/flash/prog_firehose_ddr.elf
+arduino-unoq-debian-image-20251006-395/flash/gpt_backup1.bin
+arduino-unoq-debian-image-20251006-395/flash/storsec.mbn
+arduino-unoq-debian-image-20251006-395/flash/boot.img
+arduino-unoq-debian-image-20251006-395/flash/imagefv.elf
+arduino-unoq-debian-image-20251006-395/flash/zeros_1sector.bin
+arduino-unoq-debian-image-20251006-395/flash/featenabler.mbn
+arduino-unoq-debian-image-20251006-395/flash/hyp.mbn
+arduino-unoq-debian-image-20251006-395/flash/gpt_both0.bin
+arduino-unoq-debian-image-20251006-395/flash/gpt_empty0.bin
+arduino-unoq-debian-image-20251006-395/flash/uefi_sec.mbn
+arduino-unoq-debian-image-20251006-395/flash/gpt_main0.bin
+arduino-unoq-debian-image-20251006-395/flash/patch0.xml
+arduino-unoq-debian-image-20251006-395/flash/gpt_main2.bin
+arduino-unoq-debian-image-20251006-395/flash/gpt_backup0.bin
+arduino-unoq-debian-image-20251006-395/flash/km4.mbn
+arduino-unoq-debian-image-20251006-395/flash/rawprogram0.xml
+arduino-unoq-debian-image-20251006-395/flash/zeros_33sectors.bin
+arduino-unoq-debian-image-20251006-395/flash/rawprogram0.nouser.xml
+arduino-unoq-debian-image-20251006-395/flash/abl.elf
+arduino-unoq-debian-image-20251006-395/flash/gpt_backup2.bin
+arduino-unoq-debian-image-20251006-395/flash/cdt.bin
+arduino-unoq-debian-image-20251006-395/flash/xbl.elf
+
+WARNING: flashing a new Linux image on the board will erase any existing data you have on it.
+Do you want to procede and flash /private/var/folders/1m/ft9jv6855tq4t6wltdh451240000gn/T/flasher-updater-804722481/arduino-unoq-debian-image-20251006-395 on the board? (yes/no)
+yes
+Flashing with qdl
+waiting for programmer...
+flashed "xbl_a" successfully
+flashed "xbl_b" successfully
+flashed "xbl_config_a" successfully
+flashed "xbl_config_b" successfully
+flashed "tz_a" successfully
+flashed "tz_b" successfully
+flashed "rpm_a" successfully
+flashed "rpm_b" successfully
+flashed "hyp_a" successfully
+flashed "hyp_b" successfully
+flashed "boot_a" successfully
+flashed "boot_b" successfully
+flashed "keymaster_a" successfully
+flashed "keymaster_b" successfully
+flashed "abl_a" successfully
+flashed "abl_b" successfully
+flashed "imagefv_a" successfully
+flashed "imagefv_b" successfully
+flashed "uefisecapp_a" successfully
+flashed "uefisecapp_b" successfully
+flashed "misc_boot" successfully
+flashed "devcfg_a" successfully
+flashed "devcfg_b" successfully
+flashed "featenabler_a" successfully
+flashed "featenabler_b" successfully
+flashed "qupfw_a" successfully
+flashed "qupfw_b" successfully
+flashed "apdp" successfully
+flashed "storsec" successfully
+flashed "multiimgoem_a" successfully
+flashed "multiimgoem_b" successfully
+flashed "efi" successfully at 41666kB/s
+flashed "rootfs" successfully at 31086kB/s
+flashed "userdata" successfully at 23966kB/s
+flashed "PrimaryGPT" successfully
+flashed "BackupGPT" successfully
+13 patches applied
+partition 0 is now bootable

@@ -1,0 +1,11 @@
+config BR2_PACKAGE_QCOM_SKALES
+	bool "qcom-skales"
+	help
+	  Qualcomm Snapdragon Kernel Ancillary Loader and Execution Set (SKALES).
+
+	  This package provides Qualcomm's official tools for working with
+	  Qualcomm Snapdragon platforms, including:
+	  - mkbootimg: Create Android-style boot images compatible with ABL
+	  - dtbTool: Device tree blob manipulation tool
+
+	  https://git.codelinaro.org/clo/qsdk/oss/tools/skales

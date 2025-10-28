@@ -1,0 +1,11 @@
+QUSB_BULK_CID:0420_SN:ED5AB9EA:
+
+  Location ID:	0x01100000
+  Connection Type:	Removable
+  Manufacturer:	Qualcomm CDMA Technologies MSM
+  Serial Number:	Not Provided
+  Link Speed:	480 Mb/s
+  USB Vendor ID:	0x05c6
+  USB Product ID:	0x9008
+  USB Product Version:	0x0000
+

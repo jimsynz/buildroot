@@ -1,0 +1,251 @@
+Format: Log Type - Time(microsec) - Message - Optional Info
+Log Type: B - Since Boot(Power On Reset),  D - Delta,  S - Statistic
+S - QC_IMAGE_VERSION_STRING=BOOT.XF.4.1.2-00023-KAMORTALAZ-5
+S - IMAGE_VARIANT_STRING=AgattiPkgLAA
+S - OEM_IMAGE_VERSION_STRING=hu-snanaval-hyd
+S - Boot Interface: eMMC
+S - Secure Boot: Off
+S - Boot Config @ 0x01b46070 = 0x00000041
+S - JTAG ID @ 0x01b46130 = 0x001c80e1
+S - OEM ID @ 0x01b46138 = 0x00000000
+S - Serial Number @ 0x01b46134 = 0xed5ab9ea
+S - OEM Config Row 0 @ 0x01b441b8 = 0x0000000000000000
+S - OEM Config Row 1 @ 0x01b441c0 = 0x0000000000000000
+S - Feature Config Row 0 @ 0x01b441d0 = 0x0050200016418000
+S - Feature Config Row 1 @ 0x01b441d8 = 0x0012008017830000
+S - Core 0 Frequency, 1305 MHz
+S - PBL Patch Ver: 1
+S - PBL freq: 600 MHZ
+D -      5512 - pbl_apps_init_timestamp
+D -     74791 - bootable_media_detect_timestamp
+D -      3549 - bl_elf_metadata_loading_timestamp
+D -       705 - bl_hash_seg_auth_timestamp
+D -     15896 - bl_elf_loadable_segment_loading_timestamp
+D -      4061 - bl_elf_segs_hash_verify_timestamp
+D -     17420 - bl_sec_hash_seg_auth_timestamp
+D -       862 - bl_sec_segs_hash_verify_timestamp
+D -        32 - pbl_populate_shared_data_and_exit_timestamp
+S -    122828 - PBL, End
+B -    140032 - SBL1, Start (MPM timestamp = 145180)
+B -    253686 - SBL1 BUILD @ 18:02:00 on Jun 19 2025
+B -    259016 - usb: hs_phy_nondrive_start
+B -    263396 - usb: hs_phy_nondrive_finish
+D -      8528 - sbl1_hw_init
+D -        14 - boot_flash_init
+B -    299421 - Using boot chain :: Primary
+D -     26013 - sbl1_update_partition_ids
+D -       937 - Auth Metadata
+D -      7661 - sbl1_xblconfig_init
+D -       489 - sbl1_feature_config_init
+D -         3 - boot_config_data_table_default_init
+D -        17 - sbl1_ddr_set_default_params
+D -      4135 - boot_config_data_table_init
+B -    326727 - CDT Version:3,Platform ID:32,Major ID:1,Minor ID:0,Subtype:1
+D -      9484 - sbl1_hw_platform_pre_ddr
+D -      5786 - devcfg init
+B -    405327 - PM: PSI: b0x00_v0x14
+B -    408870 - PM: Device Init # SPMI Transn: 4094
+B -    412029 - PM: Driver Init # SPMI Transn: 233
+B -    413540 - PM: Imola charging = 0x0
+B -    418039 - PM: CHG Init # SPMI Transn: 4331
+D -     78452 - pmic XBL init
+D -     10394 - vsense_railway_cpr init
+D -     99188 - sbl1_hw_pre_ddr_init
+D -         2 - boot_dload_handle_forced_dload_timeout
+D -      2729 - sbl1_load_ddr_training_data
+D -      4973 - sbl1_ddr_set_params
+B -    455419 - DSF version = 20.0, DSF RPM version = 11.0
+B -    455458 - Manufacturer ID = 255, Device Type = 7
+B -    460676 - Rank 0 size = 2048 MB, Rank 1 size = 0 MB
+B -    465550 - Max Frequency = 1804 MHz
+B -    470687 - Row Hammer Check : DRAM supports unlimited MAC Value : MR24[OP2:0 = 0] & MR24[OP3 = 1] for CH0 & CS0
+D -     27895 - sbl1_ddr_init
+B -    484599 - do_ddr_training, Start
+B -    490925 - Bootup frequency set to 1804800
+D -      3674 - do_ddr_training, Delta
+D -     10625 - sbl1_do_ddr_training
+D -         3 - sbl1_hand_control_to_devprog_ddr_or_ddi
+B -    502021 - Pimem init cmd, entry
+D -      9921 - Pimem init cmd, exit
+D -     15609 - sbl1_post_ddr_init
+D -       271 - sbl1_hw_init_secondary
+B -    525796 - APDP Image Loaded, Start
+D -      1064 - APDP Image Loaded, Delta - (0 Bytes)
+D -         3 - boot_dload_dump_security_regions
+D -        12 - boot_dload_check
+D -         2 - boot_cache_set_memory_barrier
+D -         1 - boot_smem_debug_init
+D -       304 - boot_smem_init
+D -         3 - boot_smem_alloc_for_minidump
+D -        45 - boot_smem_store_pon_status
+D -        11 - sbl1_hw_platform_smem
+D -       115 - boot_clock_init_rpm
+D -         2 - boot_vsense_copy_to_smem
+D -         2 - boot_share_flash_data
+D -         7 - boot_populate_ram_partition_table
+D -         7 - boot_populate_ddr_details_shared_table
+D -         4 - sbl1_tlmm_init
+D -         2 - sbl1_efs_handle_cookies
+D -         1 - boot_apt_test
+B -    592272 - OEM_MISC Image Loaded, Start
+D -       815 - Auth Metadata
+D -       206 - Segments hash check
+D -      7209 - OEM_MISC Image Loaded, Delta - (7816 Bytes)
+B -    605113 - QTI_MISC Image Loaded, Start
+D -      2898 - QTI_MISC Image Loaded, Delta - (0 Bytes)
+B -    614068 - PM: PM Total Mem Allocated: 1249
+D -      5044 - sbl1_pm_aop_pre_init_wrapper
+B -    621503 - RPM Image Loaded, Start
+D -       841 - Auth Metadata
+D -      1304 - Segments hash check
+D -     16188 - RPM Image Loaded, Delta - (220604 Bytes)
+B -    640923 - QSEE Dev Config Image Loaded, Start
+D -       942 - Auth Metadata
+D -       448 - Segments hash check
+D -     13486 - QSEE Dev Config Image Loaded, Delta - (40096 Bytes)
+B -    663182 - QSEE Image Loaded, Start
+D -     17895 - Auth Metadata
+D -     17153 - Segments hash check
+D -     97878 - QSEE Image Loaded, Delta - (3416070 Bytes)
+D -        47 - sbl1_hw_play_vibr
+B -    771854 - SEC Image Loaded, Start
+D -       696 - SEC Image Loaded, Delta - (0 Bytes)
+B -    776125 - QHEE Image Loaded, Start
+D -       812 - Auth Metadata
+D -      2138 - Segments hash check
+D -     15360 - QHEE Image Loaded, Delta - (374176 Bytes)
+B -    797051 - STI Image Loaded, Start
+D -      2788 - STI Image Loaded, Delta - (0 Bytes)
+B -    803415 - ABL Image Loaded, Start
+D -       803 - Auth Metadata
+D -       713 - Segments hash check
+D -     11330 - ABL Image Loaded, Delta - (146024 Bytes)
+B -    818636 - APPSBL Image Loaded, Start
+D -      1011 - Auth Metadata
+D -      8789 - Segments hash check
+D -     28367 - APPSBL Image Loaded, Delta - (2228224 Bytes)
+D -         5 - sbl1_appsbl_arch_determination
+B -    856216 - SBL1, End
+D -    719758 - SBL1, Delta
+S - Flash Throughput, 59000 KB/s  (6466710 Bytes,  108374 us)
+S - DDR Frequency, 1804 MHz
+
+UEFI Start     [ 1045]
+ - 0x05FC01000 [ 1050] Sec.efi
+ASLR        : ON
+DEP         : ON (RTB)
+Timer Delta : +5 mS
+RAM Entry 0 : Base 0x0000000040000000  Size 0x000000003EB00000
+RAM Entry 1 : Base 0x0000000080000000  Size 0x0000000040000000
+UART Buffer size set to 0x8000
+Init 3 aux cores of 3
+Init CPU core 1
+Init CPU core 2
+Init CPU core 3
+  > Scheduler up on Core 1
+UEFI Ver    : 5.0.250619.BOOT.XF.4.1.2-00023-KAMORTALAZ-5
+Build Info  : 64b Jun 19 2025 18:02:47
+Boot Device : eMMC
+PROD Mode   : TRUE
+Retail      : TRUE
+  > Scheduler up on Core 2
+  > Scheduler up on Core 3
+First FV Decompress time 23 ms
+Second FV Decompress time 0 ms (Decompress Thread)
+Module cannot re-initialize DAL module environment
+Embedded Images Supported and Commonlibs loaded
+HW Wdog Setting from PCD : Disabled
+PM0: 55,
+DisplayDxe: SW renderer mode enabled!
+DisplayDxe: Resolution 640x480 (1 intf)
+UsbConfigPortsQueryConnectionChange: UFP and Type-C
+UsbConfigPortsQueryConnectionChange: usbport->connectstate: ATT
+MinidumpTADxe: Minidump TA loading not enabled.
+WaitParallelThreads InIt [ 1262]
+-----------------------------
+Platform Init  [ 1262] BDS
+Var Store  : WARNING, not persistent
+UEFI Ver   : 5.0.250619.BOOT.XF.4.1.2-00023-KAMORTALAZ-5
+Platform           : IOT
+Chip Name          : QRB_AGATTI
+Chip Ver           : 1.0
+Chip Serial Number : 0xED5AB9EA
+-----------------------------
+UEFI Total : 234 ms
+POST Time      [ 1279] OS Loader
+Loader Build Info: May 26 2025 15:58:24
+VB: Non-secure device: Security State: (0xF3F)
+VB: RWDeviceState: Succeed using devinfo!
+Total DDR Size: 0x000000007EB00000
+KeyPress:0, BootReason:0
+Fastboot=0, Recovery:0
+GetVmData: making ScmCall to get HypInfo
+GetVmData: No Vm data present! Status = (0x3)
+VM Hyp calls not present
+Find misc_boot Partiton.
+misc_boot cookie = 00, Boot Slot is _a
+Booting from slot (_a)
+Booting Into Mission Mode
+Loading Image Start : 1294 ms
+Loading Image Done : 1295 ms
+Total Image Read size : 4096 Bytes
+Loading Image Start : 1295 ms
+Loading Image Done : 1297 ms
+Total Image Read size : 548864 Bytes
+No dtbo partition is found, Skip dtbo
+VB: verification skipped for debug builds
+GetVmData: making ScmCall to get HypInfo
+GetVmData: No Vm data present! Status = (0x3)
+No Ffbm cookie found, ignore: Not Found
+Memory Base Address: 0x40000000
+Decompressing kernel image start: 1302 ms
+Decompressing kernel image done: 1315 ms
+BootLinux: failed to get dtbo image
+DTB offset is incorrect, kernel image does not have appended DTB
+No verity command line found
+Failed to get LEVerityCmdLine: Not Found
+Error getting off mode charging info: Unsupported
+Cmdline: root=/dev/notreal androidboot.bootdevice=4744000.sdhci androidboot.serialno=3d768249 androidboot.baseband=apq
+
+RAM Partitions
+Add Base: 0x0000000040000000 Available Length: 0x000000003EB00000
+Add Base: 0x0000000080000000 Available Length: 0x0000000040000000
+ERROR: Could not get splash memory region node
+kaslr-Seed is added to chosen node
+
+Shutting Down UEFI Boot Services: 1320 ms
+Start EBS        [ 1320]
+BDS: LogFs sync skipped, Unsupported
+App Log Flush : 145 ms
+Exit EBS        [ 1481] UEFI End
+
+
+U-Boot 2025.07-rc1-gdb8b0adbbbec (Aug 06 2025 - 15:09:25 +0000)
+
+Model: Arduino SA,Imola
+DRAM:  2 GiB
+Core:  98 devices, 29 uclasses, devicetree: board
+MMC:   mmc@4744000: 0
+Loading Environment from nowhere... OK
+In:    serial,button-kbd
+Out:   serial,vidconsole
+Err:   serial,vidconsole
+Model: Arduino SA,Imola
+Net:   No ethernet found.
+
+scanning bus for devices...
+starting USB...
+No USB controllers found
+       scanning usb for storage devices... 0 Storage Device(s) found
+Hit <SPACE> key to stop autoboot in  1s
+EFI stub: Decompressing Linux Kernel...
+EFI stub: Loaded initrd from LINUX_EFI_INITRD_MEDIA_GUID device path
+EFI stub: Using DTB from configuration table
+EFI stub: Exiting boot services...
+[    0.000000] Booting Linux on physical CPU 0x0000000000 [0x51af8014]
+[    0.000000] Linux version 6.16.0-geffa8626771a (runner@runnervmav8gs) (aarch64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0, GNU ld (GNU Binutils for Ubuntu) 2.42) #
+1 SMP PREEMPT Wed Aug  6 14:24:25 UTC 2025
+[    0.000000] KASLR enabled
+[    0.000000] Machine model: Arduino SA,Imola
+[    0.000000] efi: EFI v2.11 by Das U-Boot
+[    0.000000] efi: ESRT=0xaed12040 RTPROP=0xaed14040 SMBIOS 3.0=0xafe19000 RNG=0xaecb3040 INITRD=0xaecb4040 MEMRESERVE=0xaecf6040

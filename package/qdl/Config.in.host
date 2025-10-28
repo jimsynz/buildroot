@@ -1,0 +1,11 @@
+config BR2_PACKAGE_HOST_QDL
+	bool "host qdl"
+	help
+	  qdl is a tool for flashing Qualcomm devices using the
+	  Emergency Download (EDL) mode via the Sahara and Firehose
+	  protocols.
+
+	  This is required for flashing Arduino UNO Q and other
+	  Qualcomm-based boards.
+
+	  https://github.com/linux-qdl/qdl

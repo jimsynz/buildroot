@@ -38,4 +38,10 @@ config BR2_PACKAGE_HOST_ANDROID_TOOLS_EXT4_UTILS
 comment "ext4 utils needs a toolchain w/ host gcc >= 5"
 	depends on !BR2_HOST_GCC_AT_LEAST_5
 
+config BR2_PACKAGE_HOST_ANDROID_TOOLS_MKBOOTIMG
+	bool "mkbootimg"
+	help
+	  This option will build and install the mkbootimg utility for
+	  the host, which can be used to create Android boot images.
+
 endif

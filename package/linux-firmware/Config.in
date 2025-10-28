@@ -69,6 +69,12 @@ config BR2_PACKAGE_LINUX_FIRMWARE_QCOM_ADRENO
 	help
 	  Firmware files for Qualcomm Adreno GPU firmware
 
+config BR2_PACKAGE_LINUX_FIRMWARE_QCOM_QCM2290
+	bool "Qualcomm QCM2290 SoC firmware"
+	help
+	  Firmware files for Qualcomm QCM2290 SoC, including GPU
+	  (Adreno 702), Audio DSP, and modem firmware.
+
 config BR2_PACKAGE_LINUX_FIRMWARE_MFC_V8
 	bool "Samsung MFC video encoder/decoder v8 firmware"
 	help

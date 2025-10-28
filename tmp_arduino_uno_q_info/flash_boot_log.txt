@@ -1,0 +1,59 @@
+Format: Log Type - Time(microsec) - Message - Optional Info
+Log Type: B - Since Boot(Power On Reset),  D - Delta,  S - Statistic
+S - QC_IMAGE_VERSION_STRING=BOOT.XF.4.1.2-00018-KAMORTALAZ-1
+S - IMAGE_VARIANT_STRING=AgattiPkgLAA
+S - OEM_IMAGE_VERSION_STRING=crm-ubuntu154
+S - Boot Interface: USB
+S - Secure Boot: Off
+S - Boot Config @ 0x01b46070 = 0x00000041
+S - JTAG ID @ 0x01b46130 = 0x001c80e1
+S - OEM ID @ 0x01b46138 = 0x00000000
+S - Serial Number @ 0x01b46134 = 0xed5ab9ea
+S - OEM Config Row 0 @ 0x01b441b8 = 0x0000000000000000
+S - OEM Config Row 1 @ 0x01b441c0 = 0x0000000000000000
+S - Feature Config Row 0 @ 0x01b441d0 = 0x0050200016418000
+S - Feature Config Row 1 @ 0x01b441d8 = 0x0012008017830000
+S - Core 0 Frequency, 1305 MHz
+S - PBL Patch Ver: 1
+S - PBL freq: 600 MHZ
+D -      5505 - pbl_apps_init_timestamp
+D -   3278464 - bootable_media_detect_timestamp
+D -   8702341 - bl_elf_metadata_loading_timestamp
+D -       698 - bl_hash_seg_auth_timestamp
+D -     67973 - bl_elf_loadable_segment_loading_timestamp
+D -      4260 - bl_elf_segs_hash_verify_timestamp
+D -     17413 - bl_sec_hash_seg_auth_timestamp
+D -       861 - bl_sec_segs_hash_verify_timestamp
+D -        30 - pbl_populate_shared_data_and_exit_timestamp
+S -  12077545 - PBL, End
+B -  12092957 - SBL1, Start (MPM timestamp = 236480316)
+B -  12206345 - SBL1 BUILD @ 22:39:35 on Jul 25 2023
+D -       628 - sbl1_hw_init
+D -         7 - boot_flash_init
+B -  12218617 - Using boot chain :: Primary
+D -      2882 - sbl1_update_partition_ids
+D -      1083 - sbl1_xblconfig_init
+D -         3 - sbl1_feature_config_init
+D -         3 - boot_config_data_table_default_init
+D -        19 - sbl1_ddr_set_default_params
+B -  12240653 - Using default CDT
+D -      3915 - boot_config_data_table_init
+B -  12247623 - CDT Version:3,Platform ID:34,Major ID:1,Minor ID:0,Subtype:0
+D -      9489 - sbl1_hw_platform_pre_ddr
+D -      2701 - pmic DevPrg init
+D -      3655 - sbl1_hw_pre_ddr_init
+D -         3 - boot_dload_handle_forced_dload_timeout
+D -        82 - sbl1_ddr_set_params
+B -  12276235 - DSF version = 20.0, DSF RPM version = 11.0
+B -  12276368 - Manufacturer ID = 255, Device Type = 7
+B -  12281585 - Rank 0 size = 2048 MB, Rank 1 size = 0 MB
+B -  12286460 - Max Frequency = 1804 MHz
+B -  12291597 - Row Hammer Check : DRAM supports unlimited MAC Value : MR24[OP2:0 = 0] & MR24[OP3 = 1] for CH0 & CS0
+D -     27810 - sbl1_ddr_init
+D -        74 - sbl1_do_ddr_training
+B -  12308298 - DevProg DDR Entry
+B -  12313883 - usb: init start
+B -  12314617 - usb: HIGH , 0x900e
+B -  12317479 - usb: timer_start , 0x4c4b40
+B -  12320594 - usb: ENUM success
+B -  17124818 - usb: host sends ZLP
