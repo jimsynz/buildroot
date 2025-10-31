@@ -70,10 +70,7 @@ echo "Creating deployment package..."
 mkdir -p "${IMAGES_DIR}/deploy/flash"
 
 # Copy prog_firehose_ddr.elf for EDL flashing
-ARDUINO_IMAGE_DIR="/home/james/Downloads/arduino-unoq-debian-image-20251006-395/flash"
-if [ -f "${ARDUINO_IMAGE_DIR}/prog_firehose_ddr.elf" ]; then
-    cp "${ARDUINO_IMAGE_DIR}/prog_firehose_ddr.elf" "${IMAGES_DIR}/deploy/flash/"
-fi
+cp "${BOARD_DIR}/prog_firehose_ddr.elf" "${IMAGES_DIR}/deploy/flash/"
 
 # Copy our built images
 cp "${IMAGES_DIR}/boot.img" "${IMAGES_DIR}/deploy/flash/"

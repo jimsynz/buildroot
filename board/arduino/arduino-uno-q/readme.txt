@@ -124,6 +124,25 @@ BR2_PACKAGE_LINUX_FIRMWARE_QCOM_QCM2290=y includes:
 WiFi/Bluetooth firmware for WCN3988 is also included in the linux-firmware package.
 All firmware files are automatically installed to /lib/firmware/qcom/qcm2290/
 
+EDL Firehose Programmer
+=======================
+
+The board directory includes prog_firehose_ddr.elf, a Qualcomm EDL (Emergency
+Download) firehose programmer required for flashing the board via qdl. This is
+a proprietary, OEM-signed binary (588KB) extracted from Arduino's official
+Debian image (arduino-unoq-debian-image-20251006-395).
+
+Source: https://store.arduino.cc/products/uno-q (official Arduino Debian image)
+License: Proprietary (Qualcomm/Arduino)
+Purpose: Enables EDL mode flashing via qdl tool
+
+This binary is board-specific and cannot be built from source. It is committed
+to the repository as it is:
+- Part of Arduino's official distribution
+- Relatively small (588KB)
+- Required for board flashing functionality
+- Not available from any standalone download URL
+
 Device Tree Overlays
 ====================
 
