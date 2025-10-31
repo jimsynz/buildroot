@@ -15,14 +15,14 @@ BR2_LINUX_KERNEL_DTB_OVERLAY_SUPPORT=y
 BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
 
 # U-Boot bootloader (loaded by ABL from boot.img)
-# Using Linaro's Qualcomm fork which has QCM2290/RB1/RB2 support
-# Arduino uses v2025.07-rc1, we use v2025.04 from Linaro
-# See: https://www.linaro.org/blog/initial-u-boot-release-for-qualcomm-platforms/
+# Using Arduino's U-Boot fork with QRB2210/QCM2290 support
+# Repository: https://github.com/arduino/u-boot
+# Branch: qcom-mainline
 BR2_TARGET_UBOOT=y
 BR2_TARGET_UBOOT_BUILD_SYSTEM_KCONFIG=y
 BR2_TARGET_UBOOT_CUSTOM_GIT=y
-BR2_TARGET_UBOOT_CUSTOM_REPO_URL="https://git.codelinaro.org/linaro/qcomlt/u-boot.git"
-BR2_TARGET_UBOOT_CUSTOM_REPO_VERSION="b249e08ec9b71f9d0b4eb48e3e63f63e8366b7e6"
+BR2_TARGET_UBOOT_CUSTOM_REPO_URL="https://github.com/arduino/u-boot.git"
+BR2_TARGET_UBOOT_CUSTOM_REPO_VERSION="qcom-mainline"
 BR2_TARGET_UBOOT_BOARD_DEFCONFIG="qcom"
 BR2_TARGET_UBOOT_CONFIG_FRAGMENT_FILES="board/arduino/arduino-uno-q/uboot.config"
 BR2_TARGET_UBOOT_NEEDS_DTC=y

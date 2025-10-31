@@ -26,11 +26,10 @@ https://store.arduino.cc/products/uno-q
 
 This configuration uses:
 - Arduino's custom kernel fork (v6.16.7) from: https://github.com/arduino/linux-qcom
-- Linaro's U-Boot for Qualcomm (v2025.04) from: https://git.codelinaro.org/linaro/qcomlt/u-boot
+- Arduino's U-Boot fork (qcom-mainline branch) from: https://github.com/arduino/u-boot
 
 The board uses Qualcomm's proprietary bootloader chain (XBL, TZ, ABL) with U-Boot
-chainloaded after ABL. This provides USB Mass Storage mode for easy deployment with
-tools like fwup (Nerves) or dd.
+chainloaded after ABL via an Android boot image.
 
 How to build
 ============
@@ -38,21 +37,22 @@ How to build
     $ make arduino_uno_q_defconfig
     $ make
 
-Note: You will need access to the internet to download the required sources,
-including the Arduino kernel from GitHub.
+Note: You will need internet access to download the required sources,
+including the Arduino kernel and U-Boot from GitHub.
 
 Files created in output directory
 ==================================
 
 output/images/
-
 ├── boot.img                                    (U-Boot packaged as Android boot image)
+├── boot.scr                                    (U-Boot boot script)
 ├── u-boot.bin                                  (U-Boot bootloader binary)
 ├── Image                                       (Linux kernel)
 ├── qrb2210-arduino-imola.dtb                  (Base board device tree)
 ├── qrb2210-arduino-imola-gigadisplay.dtbo     (GigaDisplay overlay)
 ├── qrb2210-arduino-imola-camera-rpiv2.dtbo    (RPi Camera v2 overlay)
 ├── qrb2210-arduino-imola-odd.dtbo             (ODD carrier overlay)
+├── efi.vfat                                    (EFI partition with kernel and DTBs)
 ├── rootfs.ext2                                 (Root filesystem)
 ├── rootfs.ext4 -> rootfs.ext2
 └── deploy/                                     (All files needed for deployment)
@@ -63,116 +63,51 @@ Boot Architecture
 The Arduino UNO Q uses a U-Boot chainloading architecture:
 
     Power On → XBL (Primary Boot) → TZ (TrustZone) → ABL (Android Boot Loader)
-             → U-Boot (chainloaded) → Linux Kernel
+             → U-Boot (from boot.img) → Linux Kernel (from EFI partition)
 
-U-Boot is packaged as an Android boot image (boot.img) which ABL loads thinking
-it's a Linux kernel. Once U-Boot is running, it provides:
-- USB Mass Storage mode (exposes eMMC as /dev/sdX on host)
-- Fastboot protocol
-- Standard boot options (eMMC, USB, network)
+The boot flow works as follows:
 
-This architecture enables easy deployment with tools like fwup (Nerves) or dd.
+1. ABL loads boot.img (containing U-Boot + device tree) from boot_a partition
+2. U-Boot initialises and loads boot.scr from the EFI partition (part 67)
+3. boot.scr loads the Linux kernel and device tree from the EFI partition
+4. Kernel boots with rootfs mounted from partition 68
 
-Creating boot.img
-=================
+The EFI partition layout:
+- boot.scr: U-Boot boot script
+- Image: Linux kernel (40MB)
+- qrb2210-arduino-imola.dtb: Device tree
+- *.dtbo: Device tree overlays for accessories
 
-U-Boot must be packaged as an Android boot image for ABL to chainload it.
-This is done automatically during the build process using abootimg.
+Flashing the System
+===================
 
-The build system:
-1. Compiles U-Boot to u-boot.bin
-2. Creates an empty ramdisk (required by Android boot image format)
-3. Uses abootimg to package u-boot.bin as boot.img with the configuration
-   from board/arduino/arduino-uno-q/bootimg.cfg
+The deployment package includes a flash script that uses qdl (Qualcomm Download)
+to flash the complete system via EDL (Emergency Download) mode.
 
-After the build completes, boot.img will be ready in:
-- output/images/boot.img
-- output/images/deploy/boot.img
+Prerequisites:
+1. Install qdl tool (built by Buildroot as host tool)
+2. Boot board into EDL mode (hold button during power-on)
 
-No manual steps are required. The boot image parameters are:
-- pagesize: 4096 (0x1000)
-- kerneladdr: 0x80008000
-- ramdiskaddr: 0x82000000
-- tagsaddr: 0x81e00000
+To flash:
 
-Initial U-Boot Installation
-============================
+    $ cd output/images/deploy
+    $ sudo ./flash.sh
 
-First, flash U-Boot to the board's boot partition. You only need to do this once.
+The flash script will write:
+- boot.img to boot_a partition (part 11) - U-Boot bootloader
+- efi.img to efi partition (part 67) - Kernel and device trees
+- rootfs.img to rootfs partition (part 68) - Root filesystem
 
-Method 1: Using Fastboot (if board has fastboot in bootloader)
----------------------------------------------------------------
-
-1. Connect board to host via USB
-2. Boot board into fastboot mode (consult Arduino documentation)
-3. Flash U-Boot:
-
-    $ fastboot flash boot output/images/boot.img
-    $ fastboot reboot
-
-Method 2: Using EDL Mode with qdl (Emergency Download)
--------------------------------------------------------
-
-If fastboot isn't available, use Qualcomm EDL (Emergency Download) mode:
-
-1. Install qdl tool on host:
-
-    $ git clone https://github.com/linux-qdl/qdl.git
-    $ cd qdl && make && sudo make install
-
-2. Boot board into EDL mode (usually a specific button combination)
-
-3. Flash U-Boot to boot partition:
-
-    $ qdl --storage emmc boot output/images/deploy/boot.img
-
-Method 3: Using Arduino's Official Flashing Tools
---------------------------------------------------
-
-Consult Arduino's documentation for their official flashing procedure.
-You'll need to replace the boot partition contents with output/images/deploy/boot.img
-
-Deploying Images with USB Mass Storage Mode (Recommended for Nerves/fwup)
-==========================================================================
-
-Once U-Boot is installed, you can easily deploy operating system images:
-
-1. Power on the board and interrupt U-Boot boot (press SPACE when prompted)
-
-2. In U-Boot console, enable USB Mass Storage mode:
-
-    => ums 0 mmc 0
-
-3. The board's eMMC will appear as /dev/sdX on your host computer
-
-4. Deploy your image using fwup (Nerves) or dd:
-
-    # For Nerves with fwup:
-    $ fwup your-nerves-image.fw
-
-    # Or with dd:
-    $ sudo dd if=your-image.img of=/dev/sdX bs=1M status=progress
-    $ sync
-
-5. Unplug USB cable or press Ctrl+C in U-Boot console to exit UMS mode
-
-6. Reboot the board:
-
-    => reset
-
-The board will boot into your newly flashed system.
+The script includes safety checks and will prompt for confirmation before flashing.
 
 Serial Console
 ==============
 
 The serial console is available on UART4 (ttyMSM0) at 115200 baud, 8N1.
-Check Arduino's documentation for the physical location of the serial pins
-or USB-to-serial adapter information.
+Check Arduino's documentation for the physical location of the serial pins.
 
-U-Boot and Linux both output to this console, which is useful for:
-- Interrupting U-Boot boot sequence
-- Debugging boot issues
-- Accessing U-Boot console for USB Mass Storage mode
+Both U-Boot and Linux output to this console. You can interrupt the U-Boot
+boot sequence by pressing SPACE during the 3-second countdown.
 
 Firmware Requirements
 =====================
@@ -198,65 +133,72 @@ This configuration builds device tree overlays for Arduino UNO Q accessories:
 - qrb2210-arduino-imola-camera-rpiv2.dtbo: Support for Raspberry Pi Camera v2
 - qrb2210-arduino-imola-odd.dtbo: Support for ODD carrier board
 
-U-Boot supports applying overlays at boot time using the 'fdt' commands.
-Alternatively, overlays can be applied by the kernel or userspace tools.
+The overlays are included in the EFI partition and can be loaded by U-Boot or
+applied at runtime using standard Linux overlay mechanisms.
 
-Nerves Integration
-==================
+Customisation
+=============
 
-This Buildroot configuration is designed to work with Nerves (Elixir embedded framework).
+Boot Script
+-----------
 
-The U-Boot USB Mass Storage mode enables easy Nerves deployment:
+The boot script (board/arduino/arduino-uno-q/boot.cmd) can be customised to:
+- Change kernel command line parameters
+- Load device tree overlays
+- Configure boot order
+- Set environment variables
 
-1. Build your Nerves firmware as usual
-2. Boot Arduino UNO Q into U-Boot USB Mass Storage mode (ums 0 mmc 0)
-3. Use fwup to deploy: fwup your-app.fw
-4. Reboot
+After modifying boot.cmd, rebuild to regenerate boot.scr:
 
-The fwup configuration for Nerves should target /dev/mmcblk0 with appropriate
-partitioning for A/B updates. Consider this partition layout:
+    $ make
 
-  /dev/mmcblk0p1  - boot (contains U-Boot boot.img)     ~10MB
-  /dev/mmcblk0p2  - nerves-a (Nerves system A)          ~500MB
-  /dev/mmcblk0p3  - nerves-b (Nerves system B)          ~500MB
-  /dev/mmcblk0p4  - data (application data partition)   ~remaining
+U-Boot Configuration
+--------------------
 
-U-Boot can be configured to boot from either nerves-a or nerves-b partitions
-for atomic A/B updates.
+U-Boot configuration fragments are in board/arduino/arduino-uno-q/uboot.config.
+This includes settings for:
+- Device tree selection (qrb2210-arduino-imola)
+- Boot command (loads boot.scr from EFI partition)
+- USB, MMC, and fastboot support
+- Console and boot delay settings
+
+After modifying uboot.config, rebuild U-Boot:
+
+    $ make uboot-dirclean
+    $ make
+
+Kernel Configuration
+--------------------
+
+The kernel uses Arduino's default defconfig. To customise:
+
+    $ make linux-menuconfig
+    $ make linux-update-defconfig
+
+This will update configs/arduino_uno_q_defconfig with your changes.
 
 Known Limitations
 =================
 
-As of 2025-10-28:
+1. U-Boot environment storage: The current configuration stores U-Boot environment
+   variables in eMMC at offset 0x400000. This may conflict with other partitions
+   if the partition layout changes. The "bad CRC" warning during boot is normal
+   for first boot and can be ignored.
 
-1. This configuration uses Linaro's Qualcomm U-Boot fork. Support for QCM2290
-   is not yet in mainline U-Boot (though other Qualcomm platforms are).
-   Monitor upstream for when QCM2290 support is merged.
+2. EFI boot variables: U-Boot displays "Failed to load EFI variables" which is
+   expected as the uefivarstore partition is not configured. This does not affect
+   the boot process.
 
-2. U-Boot configuration (uboot.config) includes USB Mass Storage support but
-   requires hardware validation to confirm all features work correctly on
-   Arduino UNO Q hardware.
-
-3. The U-Boot defconfig used (qcom_defconfig) may need board-specific
-   customisation. Check Linaro's repository for Arduino UNO Q-specific configs
-   or RB1/RB2 configs (similar eMMC-based boards).
-
-4. Initial U-Boot installation requires either fastboot, EDL mode, or Arduino's
-   official flashing tools. Consult Arduino documentation for board-specific
-   procedures.
-
-5. This configuration builds successfully but requires hardware testing to
-   validate the complete boot chain and USB Mass Storage functionality.
+3. Network support: The configuration includes network drivers but "No ethernet found"
+   is displayed during boot. Network functionality requires additional hardware
+   configuration and drivers.
 
 References
 ==========
 
 - Arduino UNO Q: https://docs.arduino.cc/hardware/uno-q/
-- Arduino Linux kernel: https://github.com/arduino/linux-qcom
-- Linaro U-Boot for Qualcomm: https://git.codelinaro.org/linaro/qcomlt/u-boot
-- Linaro U-Boot announcement: https://www.linaro.org/blog/initial-u-boot-release-for-qualcomm-platforms/
+- Arduino Linux kernel: https://github.com/arduino/linux-qcom (branch: qcom-v6.16.7-unoq)
+- Arduino U-Boot: https://github.com/arduino/u-boot (branch: qcom-mainline)
 - Qualcomm QCM2290: https://www.qualcomm.com/products/internet-of-things/industrial/building-enterprise/qcm2290
 - Buildroot manual: https://buildroot.org/downloads/manual/manual.html
-- Nerves Project: https://nerves-project.org/
-- fwup firmware update tool: https://github.com/fwup-home/fwup
 - qdl (Qualcomm Download Tool): https://github.com/linux-qdl/qdl

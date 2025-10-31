@@ -32,7 +32,7 @@ else
     exit
 fi
 
-# Set kernel command line (rootfs is partition 68 decimal)
+# Set kernel command line (rootfs is partition 68)
 setenv bootargs "console=ttyMSM0,115200 root=/dev/mmcblk0p68 rootwait rw earlycon"
 
 echo "Booting kernel..."
