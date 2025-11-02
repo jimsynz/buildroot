@@ -127,21 +127,18 @@ All firmware files are automatically installed to /lib/firmware/qcom/qcm2290/
 EDL Firehose Programmer
 =======================
 
-The board directory includes prog_firehose_ddr.elf, a Qualcomm EDL (Emergency
-Download) firehose programmer required for flashing the board via qdl. This is
-a proprietary, OEM-signed binary (588KB) extracted from Arduino's official
-Debian image (arduino-unoq-debian-image-20251006-395).
+The Qualcomm EDL (Emergency Download) firehose programmer (prog_firehose_ddr.elf)
+is required for flashing the board via qdl. This proprietary, OEM-signed binary
+(588KB) is automatically downloaded as part of the host-qdl package build.
 
-Source: https://store.arduino.cc/products/uno-q (official Arduino Debian image)
-License: Proprietary (Qualcomm/Arduino)
-Purpose: Enables EDL mode flashing via qdl tool
+Source: Linaro RB1 rescue image (rb1-bootloader-emmc-linux-47528.zip)
+URL: https://releases.linaro.org/96boards/rb1/linaro/rescue/23.12/
+License: Linaro/Qualcomm Proprietary
+Purpose: Enables EDL mode flashing for QCM2290-based boards
 
-This binary is board-specific and cannot be built from source. It is committed
-to the repository as it is:
-- Part of Arduino's official distribution
-- Relatively small (588KB)
-- Required for board flashing functionality
-- Not available from any standalone download URL
+The firehose programmer is installed to $(HOST_DIR)/share/qdl/ by the host-qdl
+package and automatically included in the deployment package by post-image.sh.
+This binary cannot be built from source as it requires OEM signing by Qualcomm.
 
 Device Tree Overlays
 ====================

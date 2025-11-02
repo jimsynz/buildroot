@@ -1,0 +1,7 @@
+# Locally calculated
+sha256  7f30400a34f7a0dcbc0c28e37168a80c636b7155bbfd2e5fbe28de7901b3c024  qdl-92b14a1c58efb8c3fb5267aadba1b1c451ea520f.tar.gz
+sha256  85814c88fc75be2523c03551ee2abefc0c30b423edda343197796e0c0e168058  LICENSE
+
+# Linaro RB1 rescue image containing Qualcomm EDL firehose programmer
+sha256  c75b6c63eb24c8ca36dad08ba4d4e93f3f4cd7dce60cf1b6dfb5790dc181cc3d  rb1-bootloader-emmc-linux-47528.zip
+sha256  7ee95495ffbbe82e2e1dfa87d3ffeff676479e7b4bb75cc605885a421bba9be4  LICENSE.linaro

@@ -69,8 +69,8 @@ echo ""
 echo "Creating deployment package..."
 mkdir -p "${IMAGES_DIR}/deploy/flash"
 
-# Copy prog_firehose_ddr.elf for EDL flashing
-cp "${BOARD_DIR}/prog_firehose_ddr.elf" "${IMAGES_DIR}/deploy/flash/"
+# Copy prog_firehose_ddr.elf for EDL flashing (provided by host-qdl package)
+cp "${HOST_DIR}/share/qdl/prog_firehose_ddr.elf" "${IMAGES_DIR}/deploy/flash/"
 
 # Copy our built images
 cp "${IMAGES_DIR}/boot.img" "${IMAGES_DIR}/deploy/flash/"
