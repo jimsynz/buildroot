@@ -131,14 +131,17 @@ The Qualcomm EDL (Emergency Download) firehose programmer (prog_firehose_ddr.elf
 is required for flashing the board via qdl. This proprietary, OEM-signed binary
 (588KB) is automatically downloaded as part of the host-qdl package build.
 
-Source: Linaro RB1 rescue image (rb1-bootloader-emmc-linux-47528.zip)
-URL: https://releases.linaro.org/96boards/rb1/linaro/rescue/23.12/
-License: Linaro/Qualcomm Proprietary
-Purpose: Enables EDL mode flashing for QCM2290-based boards
+Source: Arduino UNO Q rescue image (unoq-bootloader-emmc-linux-251020.zip)
+URL: https://downloads.arduino.cc/debian-im/
+License: Arduino/Qualcomm Proprietary
+Purpose: Enables EDL mode flashing for Arduino UNO Q
 
 The firehose programmer is installed to $(HOST_DIR)/share/qdl/ by the host-qdl
 package and automatically included in the deployment package by post-image.sh.
 This binary cannot be built from source as it requires OEM signing by Qualcomm.
+
+Note: Arduino's rescue image is derived from Linaro's RB1 rescue image and
+contains the same firehose programmer binary.
 
 Device Tree Overlays
 ====================

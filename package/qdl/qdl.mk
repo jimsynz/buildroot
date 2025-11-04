@@ -13,27 +13,27 @@ QDL_LICENSE_FILES = LICENSE
 # qdl depends on libxml2 (for XML parsing) and libusb (for USB access)
 HOST_QDL_DEPENDENCIES = host-pkgconf host-libxml2 host-libusb
 
-# Qualcomm EDL firehose programmer from Linaro RB1 rescue image
+# Qualcomm EDL firehose programmer from Arduino UNO Q rescue image
 # This OEM-signed programmer is required for QCM2290-based boards
-QDL_LINARO_VERSION = 47528
-QDL_LINARO_SITE = https://releases.linaro.org/96boards/rb1/linaro/rescue/23.12
-QDL_LINARO_SOURCE = rb1-bootloader-emmc-linux-$(QDL_LINARO_VERSION).zip
-QDL_LINARO_FILE = $(BR2_DL_DIR)/qdl/$(QDL_LINARO_SOURCE)
+QDL_ARDUINO_VERSION = 251020
+QDL_ARDUINO_SITE = https://downloads.arduino.cc/debian-im
+QDL_ARDUINO_SOURCE = unoq-bootloader-emmc-linux-$(QDL_ARDUINO_VERSION).zip
+QDL_ARDUINO_FILE = $(BR2_DL_DIR)/qdl/$(QDL_ARDUINO_SOURCE)
 
-# Download the Linaro RB1 bootloader package containing the firehose programmer
+# Download the Arduino UNO Q bootloader package containing the firehose programmer
 define HOST_QDL_DOWNLOAD_FIREHOSE
-	test -f $(QDL_LINARO_FILE) || \
+	test -f $(QDL_ARDUINO_FILE) || \
 		(mkdir -p $(BR2_DL_DIR)/qdl && \
-		wget -O $(QDL_LINARO_FILE) $(QDL_LINARO_SITE)/$(QDL_LINARO_SOURCE))
+		wget -O $(QDL_ARDUINO_FILE) $(QDL_ARDUINO_SITE)/$(QDL_ARDUINO_SOURCE))
 endef
 
 HOST_QDL_PRE_EXTRACT_HOOKS += HOST_QDL_DOWNLOAD_FIREHOSE
 
-# Extract firehose programmer and LICENSE from the downloaded Linaro package
+# Extract firehose programmer and LICENSE from the downloaded Arduino package
 define HOST_QDL_EXTRACT_FIREHOSE
-	$(UNZIP) -j $(QDL_LINARO_FILE) \
-		rb1-bootloader-emmc-linux-$(QDL_LINARO_VERSION)/prog_firehose_ddr.elf \
-		rb1-bootloader-emmc-linux-$(QDL_LINARO_VERSION)/LICENSE \
+	$(UNZIP) -j $(QDL_ARDUINO_FILE) \
+		unoq-bootloader-emmc-linux-$(QDL_ARDUINO_VERSION)/prog_firehose_ddr.elf \
+		unoq-bootloader-emmc-linux-$(QDL_ARDUINO_VERSION)/LICENSE \
 		-d $(@D)/firehose
 endef
 
@@ -48,7 +48,7 @@ define HOST_QDL_INSTALL_CMDS
 	$(INSTALL) -D -m 0644 $(@D)/firehose/prog_firehose_ddr.elf \
 		$(HOST_DIR)/share/qdl/prog_firehose_ddr.elf
 	$(INSTALL) -D -m 0644 $(@D)/firehose/LICENSE \
-		$(HOST_DIR)/share/qdl/LICENSE.linaro
+		$(HOST_DIR)/share/qdl/LICENSE.arduino
 endef
 
 $(eval $(host-generic-package))
