@@ -1,0 +1,22 @@
+config BR2_PACKAGE_ARDUINO_ROUTER
+	bool "arduino-router"
+	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
+	depends on BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
+	depends on BR2_TOOLCHAIN_HAS_THREADS
+	select BR2_PACKAGE_HOST_GO
+	select BR2_PACKAGE_SOCAT
+	select BR2_PACKAGE_LIBGPIOD
+	select BR2_PACKAGE_LIBGPIOD_TOOLS
+	help
+	  Arduino MessagePack RPC Router for inter-process communication.
+
+	  The router allows RPC calls between multiple MessagePack RPC clients
+	  connected in a star topology network, with support for TCP, Unix
+	  sockets, and serial port connections.
+
+	  https://github.com/arduino/arduino-router
+
+comment "arduino-router needs a toolchain w/ threads"
+	depends on BR2_PACKAGE_HOST_GO_TARGET_ARCH_SUPPORTS
+	depends on BR2_PACKAGE_HOST_GO_TARGET_CGO_LINKING_SUPPORTS
+	depends on !BR2_TOOLCHAIN_HAS_THREADS
