@@ -1,0 +1,499 @@
+<?xml version="1.0" ?>
+<data>
+  <!--
+  Complete partition layout for Arduino UNO Q (QRB2210)
+
+  This flashes ALL bootloader/firmware partitions plus Buildroot images:
+  - GPT partition tables
+  - XBL (eXtensible Bootloader) - both A and B slots
+  - TrustZone, RPM, Hypervisor - both A and B slots
+  - ABL (Android Boot Loader) - both A and B slots
+  - UEFI components - both A and B slots
+  - Device config, feature enabler, QUP firmware - both A and B slots
+  - Keymaster - both A and B slots
+  - Storage security, multi-image
+  - boot.img (U-Boot) - both A and B slots (Buildroot image)
+  - efi partition with kernel/device trees (Buildroot image)
+  - rootfs partition (Buildroot image)
+
+  Boot chain: UEFI → ABL → boot.img (U-Boot) → kernel from EFI partition
+
+  WARNING: This will COMPLETELY reflash the device including all bootloaders.
+           Only use this for initial flashing or recovery.
+  -->
+
+  <!-- GPT partition tables -->
+  <program start_sector="0"
+           size_in_KB="17.0"
+           physical_partition_number="0"
+           partofsingleimage="true"
+           file_sector_offset="0"
+           num_partition_sectors="34"
+           readbackverify="false"
+           filename="gpt_main0.bin"
+           sparse="false"
+           start_byte_hex="0x0"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="PrimaryGPT"/>
+
+  <program start_sector="NUM_DISK_SECTORS-33."
+           size_in_KB="16.5"
+           physical_partition_number="0"
+           partofsingleimage="true"
+           file_sector_offset="0"
+           num_partition_sectors="33"
+           readbackverify="false"
+           filename="gpt_backup0.bin"
+           sparse="false"
+           start_byte_hex="(512*NUM_DISK_SECTORS)-16896."
+           SECTOR_SIZE_IN_BYTES="512"
+           label="BackupGPT"/>
+
+  <!-- XBL (eXtensible Bootloader) - both A and B slots (3.5MB each) -->
+  <program start_sector="131072"
+           size_in_KB="3584.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="7168"
+           readbackverify="false"
+           filename="xbl.elf"
+           sparse="false"
+           start_byte_hex="0x4000000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="xbl_a"/>
+
+  <program start_sector="138240"
+           size_in_KB="3584.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="7168"
+           readbackverify="false"
+           filename="xbl.elf"
+           sparse="false"
+           start_byte_hex="0x4380000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="xbl_b"/>
+
+  <!-- XBL configuration - both A and B slots (128KB each) -->
+  <program start_sector="145408"
+           size_in_KB="128.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="256"
+           readbackverify="false"
+           filename="xbl_feature_config.elf"
+           sparse="false"
+           start_byte_hex="0x4700000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="xbl_config_a"/>
+
+  <program start_sector="145664"
+           size_in_KB="128.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="256"
+           readbackverify="false"
+           filename="xbl_feature_config.elf"
+           sparse="false"
+           start_byte_hex="0x4720000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="xbl_config_b"/>
+
+  <!-- TrustZone - both A and B slots (4MB each) -->
+  <program start_sector="145920"
+           size_in_KB="4096.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="8192"
+           readbackverify="false"
+           filename="tz.mbn"
+           sparse="false"
+           start_byte_hex="0x4740000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="tz_a"/>
+
+  <program start_sector="154112"
+           size_in_KB="4096.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="8192"
+           readbackverify="false"
+           filename="tz.mbn"
+           sparse="false"
+           start_byte_hex="0x4b40000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="tz_b"/>
+
+  <!-- RPM (Resource Power Manager) - both A and B slots (512KB each) -->
+  <program start_sector="162304"
+           size_in_KB="512.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="1024"
+           readbackverify="false"
+           filename="rpm.mbn"
+           sparse="false"
+           start_byte_hex="0x4f40000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="rpm_a"/>
+
+  <program start_sector="163328"
+           size_in_KB="512.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="1024"
+           readbackverify="false"
+           filename="rpm.mbn"
+           sparse="false"
+           start_byte_hex="0x4fc0000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="rpm_b"/>
+
+  <!-- Hypervisor - both A and B slots (512KB each) -->
+  <program start_sector="164352"
+           size_in_KB="512.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="1024"
+           readbackverify="false"
+           filename="hyp.mbn"
+           sparse="false"
+           start_byte_hex="0x5040000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="hyp_a"/>
+
+  <program start_sector="165376"
+           size_in_KB="512.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="1024"
+           readbackverify="false"
+           filename="hyp.mbn"
+           sparse="false"
+           start_byte_hex="0x50c0000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="hyp_b"/>
+
+  <!-- Boot partition: Android boot image with U-Boot - both A and B slots (4MB each) -->
+  <program start_sector="166400"
+           size_in_KB="4096.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="8192"
+           readbackverify="false"
+           filename="boot.img"
+           sparse="false"
+           start_byte_hex="0x5140000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="boot_a"/>
+
+  <program start_sector="174592"
+           size_in_KB="4096.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="8192"
+           readbackverify="false"
+           filename="boot.img"
+           sparse="false"
+           start_byte_hex="0x5540000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="boot_b"/>
+
+  <!-- Keymaster - both A and B slots (512KB each) -->
+  <program start_sector="219656"
+           size_in_KB="512.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="1024"
+           readbackverify="false"
+           filename="km4.mbn"
+           sparse="false"
+           start_byte_hex="0x6b41000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="keymaster_a"/>
+
+  <program start_sector="220680"
+           size_in_KB="512.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="1024"
+           readbackverify="false"
+           filename="km4.mbn"
+           sparse="false"
+           start_byte_hex="0x6bc1000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="keymaster_b"/>
+
+  <!-- ABL (Android Boot Loader) - both A and B slots (1MB each) -->
+  <program start_sector="369160"
+           size_in_KB="1024.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="2048"
+           readbackverify="false"
+           filename="abl.elf"
+           sparse="false"
+           start_byte_hex="0xb441000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="abl_a"/>
+
+  <program start_sector="371208"
+           size_in_KB="1024.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="2048"
+           readbackverify="false"
+           filename="abl.elf"
+           sparse="false"
+           start_byte_hex="0xb541000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="abl_b"/>
+
+  <!-- UEFI ImageFV - both A and B slots (2MB each) -->
+  <program start_sector="377368"
+           size_in_KB="2048.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="4096"
+           readbackverify="false"
+           filename="imagefv.elf"
+           sparse="false"
+           start_byte_hex="0xb843000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="imagefv_a"/>
+
+  <program start_sector="381464"
+           size_in_KB="2048.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="4096"
+           readbackverify="false"
+           filename="imagefv.elf"
+           sparse="false"
+           start_byte_hex="0xba43000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="imagefv_b"/>
+
+  <!-- UEFI Secure App - both A and B slots (2MB each) -->
+  <program start_sector="385560"
+           size_in_KB="2048.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="4096"
+           readbackverify="false"
+           filename="uefi_sec.mbn"
+           sparse="false"
+           start_byte_hex="0xbc43000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="uefisecapp_a"/>
+
+  <program start_sector="389656"
+           size_in_KB="2048.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="4096"
+           readbackverify="false"
+           filename="uefi_sec.mbn"
+           sparse="false"
+           start_byte_hex="0xbe43000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="uefisecapp_b"/>
+
+  <!-- misc_boot partition: zeros (1MB) -->
+  <program start_sector="461336"
+           size_in_KB="1024.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="2048"
+           readbackverify="false"
+           filename="zeros_33sectors.bin"
+           sparse="false"
+           start_byte_hex="0xe143000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="misc_boot"/>
+
+  <!-- Device configuration - both A and B slots (128KB each) -->
+  <program start_sector="464408"
+           size_in_KB="128.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="256"
+           readbackverify="false"
+           filename="devcfg.mbn"
+           sparse="false"
+           start_byte_hex="0xe2c3000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="devcfg_a"/>
+
+  <program start_sector="464664"
+           size_in_KB="128.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="256"
+           readbackverify="false"
+           filename="devcfg.mbn"
+           sparse="false"
+           start_byte_hex="0xe2e3000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="devcfg_b"/>
+
+  <!-- Feature enabler - both A and B slots (128KB each) -->
+  <program start_sector="464920"
+           size_in_KB="128.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="256"
+           readbackverify="false"
+           filename="featenabler.mbn"
+           sparse="false"
+           start_byte_hex="0xe303000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="featenabler_a"/>
+
+  <program start_sector="465176"
+           size_in_KB="128.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="256"
+           readbackverify="false"
+           filename="featenabler.mbn"
+           sparse="false"
+           start_byte_hex="0xe323000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="featenabler_b"/>
+
+  <!-- QUP firmware - both A and B slots (64KB each) -->
+  <program start_sector="465432"
+           size_in_KB="64.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="128"
+           readbackverify="false"
+           filename="qupv3fw.elf"
+           sparse="false"
+           start_byte_hex="0xe343000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="qupfw_a"/>
+
+  <program start_sector="465560"
+           size_in_KB="64.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="128"
+           readbackverify="false"
+           filename="qupv3fw.elf"
+           sparse="false"
+           start_byte_hex="0xe353000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="qupfw_b"/>
+
+  <!-- apdp partition: zeros (256KB) -->
+  <program start_sector="730912"
+           size_in_KB="256.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="512"
+           readbackverify="false"
+           filename="zeros_33sectors.bin"
+           sparse="false"
+           start_byte_hex="0x164e4000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="apdp"/>
+
+  <!-- Storage security (128KB) -->
+  <program start_sector="968264"
+           size_in_KB="128.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="256"
+           readbackverify="false"
+           filename="storsec.mbn"
+           sparse="false"
+           start_byte_hex="0x1d8c9000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="storsec"/>
+
+  <!-- Multi-image OEM - both A and B slots (32KB each) -->
+  <program start_sector="968520"
+           size_in_KB="32.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="64"
+           readbackverify="false"
+           filename="multi_image.mbn"
+           sparse="false"
+           start_byte_hex="0x1d8e9000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="multiimgoem_a"/>
+
+  <program start_sector="968584"
+           size_in_KB="32.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="64"
+           readbackverify="false"
+           filename="multi_image.mbn"
+           sparse="false"
+           start_byte_hex="0x1d8f1000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="multiimgoem_b"/>
+
+  <!-- EFI partition: kernel + device trees for U-Boot to load (512MB) -->
+  <program start_sector="985408"
+           size_in_KB="524288.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="1048576"
+           readbackverify="false"
+           filename="efi.img"
+           sparse="false"
+           start_byte_hex="0x1e128000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="efi"/>
+
+  <!-- rootfs partition: Buildroot filesystem (512MB) -->
+  <program start_sector="2033984"
+           size_in_KB="524288.0"
+           physical_partition_number="0"
+           partofsingleimage="false"
+           file_sector_offset="0"
+           num_partition_sectors="1048576"
+           readbackverify="false"
+           filename="rootfs.img"
+           sparse="false"
+           start_byte_hex="0x3e128000"
+           SECTOR_SIZE_IN_BYTES="512"
+           label="rootfs"/>
+</data>

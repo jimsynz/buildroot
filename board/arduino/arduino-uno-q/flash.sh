@@ -2,22 +2,29 @@
 #
 # Arduino UNO Q Flash Script
 #
-# This script flashes a complete Buildroot system to the Arduino UNO Q board
+# This script flashes a Buildroot system to the Arduino UNO Q board
 # using Qualcomm's qdl (Qualcomm Download) tool via EDL mode.
 #
 # Requirements:
 #   - qdl tool installed (https://github.com/linux-qdl/qdl)
-#   - Board in EDL mode (hold button during power-on)
+#   - Board in EDL mode (USB_BOOT pin connected to GND in JCTL header)
 #   - Root/sudo access
 #
 # Usage:
-#   sudo ./flash.sh
+#   sudo ./flash.sh           # Quick mode: flash boot, efi, rootfs only
+#   sudo ./flash.sh --complete  # Complete mode: flash all bootloaders + images
 #
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 FLASH_DIR="${SCRIPT_DIR}/flash"
+COMPLETE_FLASH=false
+
+# Parse arguments
+if [ "$1" = "--complete" ]; then
+    COMPLETE_FLASH=true
+fi
 
 # Colours for output
 RED='\033[0;31m'
@@ -27,6 +34,11 @@ NC='\033[0m' # No colour
 
 echo "======================================================================="
 echo "Arduino UNO Q - Buildroot Flash Script"
+if [ "$COMPLETE_FLASH" = true ]; then
+    echo "Mode: COMPLETE (all bootloaders + images)"
+else
+    echo "Mode: QUICK (boot, efi, rootfs only)"
+fi
 echo "======================================================================="
 echo ""
 
@@ -61,12 +73,42 @@ if [ ! -d "${FLASH_DIR}" ]; then
 fi
 
 # Check required files
-REQUIRED_FILES=(
-    "prog_firehose_ddr.elf"
-    "boot.img"
-    "efi.img"
-    "rootfs.img"
-)
+if [ "$COMPLETE_FLASH" = true ]; then
+    REQUIRED_FILES=(
+        "prog_firehose_ddr.elf"
+        "xbl.elf"
+        "xbl_feature_config.elf"
+        "tz.mbn"
+        "rpm.mbn"
+        "hyp.mbn"
+        "abl.elf"
+        "km4.mbn"
+        "imagefv.elf"
+        "uefi_sec.mbn"
+        "devcfg.mbn"
+        "featenabler.mbn"
+        "qupv3fw.elf"
+        "storsec.mbn"
+        "multi_image.mbn"
+        "gpt_main0.bin"
+        "gpt_backup0.bin"
+        "zeros_33sectors.bin"
+        "boot.img"
+        "efi.img"
+        "rootfs.img"
+    )
+    RAWPROGRAM="${SCRIPT_DIR}/rawprogram_complete.xml"
+    PATCHFILE="${SCRIPT_DIR}/patch0.xml"
+else
+    REQUIRED_FILES=(
+        "prog_firehose_ddr.elf"
+        "boot.img"
+        "efi.img"
+        "rootfs.img"
+    )
+    RAWPROGRAM="${SCRIPT_DIR}/rawprogram_buildroot.xml"
+    PATCHFILE=""
+fi
 
 echo "Checking required files..."
 for file in "${REQUIRED_FILES[@]}"; do
@@ -76,6 +118,22 @@ for file in "${REQUIRED_FILES[@]}"; do
     fi
     echo -e "  ${GREEN}✓${NC} ${file}"
 done
+
+# Check rawprogram file
+if [ ! -f "${RAWPROGRAM}" ]; then
+    echo -e "${RED}ERROR: Rawprogram file not found: ${RAWPROGRAM}${NC}"
+    exit 1
+fi
+echo -e "  ${GREEN}✓${NC} $(basename "${RAWPROGRAM}")"
+
+# Check patch file if needed
+if [ -n "${PATCHFILE}" ] && [ ! -f "${PATCHFILE}" ]; then
+    echo -e "${RED}ERROR: Patch file not found: ${PATCHFILE}${NC}"
+    exit 1
+fi
+if [ -n "${PATCHFILE}" ]; then
+    echo -e "  ${GREEN}✓${NC} $(basename "${PATCHFILE}")"
+fi
 echo ""
 
 # Show file sizes
@@ -86,9 +144,31 @@ echo "  rootfs.img: $(du -h "${FLASH_DIR}/rootfs.img" | cut -f1)"
 echo ""
 
 # Warning
-echo -e "${YELLOW}WARNING: This will overwrite the boot_a, efi and rootfs partitions!${NC}"
-echo "         Boot chain: UEFI → ABL → boot.img (U-Boot) → kernel"
-echo "         Other bootloader partitions (xbl, tz, rpm, etc.) will NOT be modified."
+if [ "$COMPLETE_FLASH" = true ]; then
+    echo -e "${YELLOW}WARNING: COMPLETE FLASH MODE${NC}"
+    echo -e "${YELLOW}This will COMPLETELY REFLASH the device including:${NC}"
+    echo "  - GPT partition tables"
+    echo "  - All bootloaders (XBL, TrustZone, RPM, Hypervisor, ABL, etc.)"
+    echo "  - All firmware (Keymaster, UEFI components, device config, etc.)"
+    echo "  - Boot images (boot_a, boot_b with U-Boot)"
+    echo "  - EFI partition (kernel + device trees)"
+    echo "  - Rootfs partition (Buildroot filesystem)"
+    echo ""
+    echo "Boot chain: UEFI → ABL → boot.img (U-Boot) → kernel"
+    echo ""
+    echo -e "${RED}This is a DESTRUCTIVE operation. Only use for initial flashing or recovery.${NC}"
+else
+    echo -e "${YELLOW}WARNING: QUICK FLASH MODE${NC}"
+    echo "This will overwrite the following partitions:"
+    echo "  - boot_a (Android boot image with U-Boot)"
+    echo "  - efi (kernel + device trees)"
+    echo "  - rootfs (Buildroot filesystem)"
+    echo ""
+    echo "Boot chain: UEFI → ABL → boot.img (U-Boot) → kernel"
+    echo ""
+    echo "Bootloader partitions (xbl, tz, rpm, etc.) will NOT be modified."
+    echo "They must already be present on the device (from Arduino factory image)."
+fi
 echo ""
 read -p "Continue? (yes/no) " -r
 echo
@@ -101,14 +181,29 @@ fi
 echo "Flashing Arduino UNO Q..."
 echo "Waiting for board in EDL mode..."
 echo ""
+echo "To enter EDL mode: Connect USB_BOOT pin to GND in the JCTL header,"
+echo "                   then power on the board."
+echo ""
 
 cd "${FLASH_DIR}"
 
-if ${QDL_BIN} --storage emmc prog_firehose_ddr.elf ../rawprogram_buildroot.xml; then
+# Build qdl command
+QDL_CMD="${QDL_BIN} --storage emmc prog_firehose_ddr.elf ${RAWPROGRAM}"
+if [ -n "${PATCHFILE}" ]; then
+    QDL_CMD="${QDL_CMD} ${PATCHFILE}"
+fi
+
+if ${QDL_CMD}; then
     echo ""
     echo -e "${GREEN}=======================================================================${NC}"
     echo -e "${GREEN}Flash completed successfully!${NC}"
     echo -e "${GREEN}=======================================================================${NC}"
+    echo ""
+    if [ "$COMPLETE_FLASH" = true ]; then
+        echo "Complete system has been flashed including all bootloaders."
+    else
+        echo "Boot, EFI, and rootfs partitions have been updated."
+    fi
     echo ""
     echo "The board will reboot automatically."
     echo "Serial console: UART4 (ttyMSM0) at 115200 baud"
@@ -120,7 +215,7 @@ else
     echo -e "${RED}=======================================================================${NC}"
     echo ""
     echo "Please check:"
-    echo "  - Board is in EDL mode (hold button during power-on)"
+    echo "  - Board is in EDL mode (USB_BOOT pin connected to GND in JCTL header)"
     echo "  - USB cable is connected"
     echo "  - qdl has permissions to access USB devices"
     exit 1
