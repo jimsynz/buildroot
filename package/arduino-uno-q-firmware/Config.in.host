@@ -1,0 +1,12 @@
+config BR2_PACKAGE_HOST_ARDUINO_UNO_Q_FIRMWARE
+	bool "host arduino-uno-q-firmware"
+	help
+	  Firmware and bootloader files for the Arduino UNO Q board.
+
+	  This package provides the Qualcomm EDL firehose programmer
+	  and bootloader components (xbl, abl, tz, rpm, etc.) required
+	  for flashing the Arduino UNO Q via EDL mode.
+
+	  These files are extracted from Arduino's official rescue image.
+
+	  https://downloads.arduino.cc/debian-im/
